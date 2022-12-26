@@ -1,38 +1,37 @@
-function getUserChoice() {
-  let uc = prompt("enter rock, paper or scissors").toLowerCase();
-  if (uc === "rock" || uc === "paper" || uc === "scissors")
-    return uc;
-  else {
-    alert("wrong input");
-    return getUserChoice();
-  }
-}
-
 function getComputerChoice() {
-  let choices = ["rock", "paper", "scissors"];
   let ch = Math.floor(Math.random() * 3);
   return choices[ch];
 }
 
-function playRound(userChoice, computerChoice) {
-  if (userChoice == "rock" && computerChoice == "scissors" ||
-    userChoice == "paper" && computerChoice == "rock" ||
-    userChoice == "scissors" && computerChoice == "paper")
-    return 1;
+function playRound(e) {
+  userChoice = e.target.textContent;
+  computerChoice = getComputerChoice();
+  if (userChoice === "Rock" && computerChoice === "Scissors" ||
+    userChoice == "Paper" && computerChoice === "Rock" ||
+    userChoice === "Scissors" && computerChoice === "Paper")
+    wins++;
   else if (userChoice === computerChoice ||
     userChoice === computerChoice ||
     userChoice === computerChoice)
-    return 0;
+    draws++
   else
-    return -1;
+    losses++;
+
+  userMoveDiv.innerText = `User played ${userChoice}`;
+  pcMoveDiv.innerText = `Computer player ${computerChoice}`;
+  winDiv.innerText = `wins = ${wins} losses = ${losses} draws = ${draws}`;
+  console.log(winDiv.innerText);
 }
 
-for (let i = 0; i < 5; i++) {
-  let roundRes = playRound(getUserChoice(), getComputerChoice());
-  if (roundRes === 1)
-    console.log("you win!")
-  else if (roundRes === -1)
-    console.log("you lose");
-  else
-    console.log("it's a tie");
-}
+let wins = 0, losses = 0, draws = 0;
+const choices = ["Rock", "Paper", "Scissors"];
+let winDiv = document.querySelector(".win-counter");
+let userMoveDiv = document.querySelector(".user-move");
+let pcMoveDiv = document.querySelector(".pc-move");
+
+let rockButton = document.querySelector(".rock");
+let paperButton = document.querySelector(".paper");
+let scissorsButton = document.querySelector(".scissors");
+rockButton.addEventListener("click", playRound);
+paperButton.addEventListener("click", playRound);
+scissorsButton.addEventListener("click", playRound);
